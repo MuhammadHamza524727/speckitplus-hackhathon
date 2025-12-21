@@ -1,0 +1,23 @@
+graph TD
+    A[Simulation] --> B[Perception]
+    B --> C[Planning]
+    C --> D[Control]
+    A --> A1[Isaac Sim + Omniverse]
+    B --> B1[Isaac ROS Packages]
+    C --> C1[Nav2 Navigation]
+    D --> D1[Robot Controllers]
+
+    subgraph "Full Perception Pipeline"
+        A2[RGB Camera] --> E[Stereo Disparity]
+        F[Depth Sensor] --> E
+        E --> G[3D Reconstruction]
+        G --> H[Object Detection]
+        H --> I[Semantic Segmentation]
+        I --> J[Feature Extraction]
+        J --> K[SLAM Mapping]
+        K --> L[Localization]
+    end
+
+    A --> A2
+    A --> F
+    L --> C

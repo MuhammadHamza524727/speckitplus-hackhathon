@@ -1,55 +1,57 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- SYNC IMPACT REPORT:
+Version change: 1.0.0 → 1.0.0 (initial creation)
+Modified principles: None (new document)
+Added sections: All sections (new document)
+Removed sections: None
+Templates requiring updates: ✅ updated / ⚠ pending
+Follow-up TODOs: None
+-->
+# Physical AI & Humanoid Robotics Textbook Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Step-by-Step Explanations
+All concepts must be broken down into clear, sequential steps with practical examples; Every algorithm, equation, and implementation detail must be explained progressively; Students must be able to follow along without gaps in reasoning.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### No Hallucinations Policy
+All technical claims must be verified against authoritative sources before publication; No fabricated examples, data, or references allowed; Citations required for all non-original content and experimental results.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Documentation Links and References
+Every code example must include links to source repositories (GitHub URLs); All external resources must be referenced with permanent links (e.g., ROS docs: https://docs.ros.org/en/humble/); File and code references must be clickable and maintained.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Markdown/MDX with Mermaid Diagrams
+All content must be authored in Markdown/MDX format for Docusaurus compatibility; System architectures and algorithms must include Mermaid diagrams for visualization; Mathematical content must use LaTeX syntax within MDX.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Student-Centered Clarity
+All explanations must prioritize student comprehension over technical completeness; Complex topics must include analogies and real-world applications; Accessibility standards must be met for diverse learning needs.
 
-### [PRINCIPLE_6_NAME]
+### Accuracy Testing and Validation
+All code examples must be tested and validated before inclusion; Mathematical derivations must be verified for correctness; Experimental results must include reproducibility instructions.
 
+## Technical Standards
 
-[PRINCIPLE__DESCRIPTION]
+### Docker and Containerization
+All development environments must be containerized with Docker for consistency; Build processes must be reproducible across platforms; Dependencies must be explicitly declared in Dockerfiles.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### MCP and GitHub Integration
+Development workflows must integrate with Model Context Protocol (MCP) for enhanced tooling; GitHub Actions must validate all content changes; Version control must maintain clean history for textbook evolution.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### Docusaurus Optimization
+Content must leverage Docusaurus features like search, navigation, and theming; Performance optimizations required for fast loading; Mobile-responsive design standards must be met.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### Content Creation Process
+New chapters must follow template structure with learning objectives and summaries; Peer review required before merging; Student feedback integration process must be established.
+
+### Quality Assurance
+Automated checks for broken links and missing references; Spell and grammar checking integrated into CI/CD; Accessibility validation for all diagrams and code snippets.
+
+### Release Management
+Versioned releases aligned with course schedules; Stable branches for published content; Feature branches for experimental content.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution governs all contributions to the Physical AI & Humanoid Robotics textbook. All authors and contributors must comply with these principles. Amendments require documented justification and approval from the editorial board. Content reviews must verify adherence to all principles before acceptance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-12 | **Last Amended**: 2025-12-12

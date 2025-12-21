@@ -1,0 +1,16 @@
+# Node
+node_modules/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Docusaurus
+.docusaurus/
+
+# Logs / history
+history/
+
+# Env
+.env

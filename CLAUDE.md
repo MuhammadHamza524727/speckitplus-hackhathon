@@ -208,3 +208,12 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- MDX (Markdown Extended) for Docusaurus compatibility + Gazebo Harmonic, ROS 2 Humble, ros_gz_sim, libgazebo_ros plugins, Unity Robotics Hub (003-gazebo-unity-chapter)
+- N/A (Documentation content) (003-gazebo-unity-chapter)
+- MDX (Markdown Extended) for Docusaurus compatibility + NVIDIA Isaac Sim, Omniverse, Isaac ROS packages, ROS 2 Humble, Nav2 (004-isaac-platform)
+- N/A (documentation content) (004-isaac-platform)
+
+## Recent Changes
+- 003-gazebo-unity-chapter: Added MDX (Markdown Extended) for Docusaurus compatibility + Gazebo Harmonic, ROS 2 Humble, ros_gz_sim, libgazebo_ros plugins, Unity Robotics Hub

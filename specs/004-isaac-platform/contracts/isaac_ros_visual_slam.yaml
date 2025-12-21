@@ -1,0 +1,144 @@
+# Isaac ROS Visual SLAM API Contract
+
+# This contract defines the interface for Isaac ROS visual SLAM integration
+# Based on the official Isaac ROS visual slam packages from NVIDIA
+
+openapi: 3.0.0
+info:
+  title: Isaac ROS Visual SLAM API
+  description: API contract for Isaac ROS visual SLAM integration with Isaac Sim
+  version: 1.0.0
+
+paths:
+  /slam/start:
+    post:
+      summary: Start visual SLAM process
+      description: Initializes the visual SLAM system with specified parameters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SLAMConfig'
+      responses:
+        '200':
+          description: SLAM started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAMStatus'
+        '400':
+          description: Invalid configuration parameters
+        '500':
+          description: SLAM system initialization failed
+
+  /slam/stop:
+    post:
+      summary: Stop visual SLAM process
+      description: Stops the visual SLAM system and cleans up resources
+      responses:
+        '200':
+          description: SLAM stopped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAMStatus'
+        '500':
+          description: Failed to stop SLAM system
+
+  /slam/status:
+    get:
+      summary: Get SLAM system status
+      description: Returns the current status of the SLAM system
+      responses:
+        '200':
+          description: Current SLAM status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAMStatus'
+
+components:
+  schemas:
+    SLAMConfig:
+      type: object
+      properties:
+        camera_topic:
+          type: string
+          description: ROS topic for camera input
+          example: "/camera/rgb/image_rect_color"
+        imu_topic:
+          type: string
+          description: ROS topic for IMU input (optional)
+          example: "/imu/data"
+        map_frame:
+          type: string
+          description: Frame ID for the map
+          example: "map"
+        base_frame:
+          type: string
+          description: Frame ID for the robot base
+          example: "base_link"
+        enable_localization:
+          type: boolean
+          description: Whether to enable localization mode
+          default: false
+        enable_mapping:
+          type: boolean
+          description: Whether to enable mapping mode
+          default: true
+        use_sim_time:
+          type: boolean
+          description: Whether to use simulation time from Isaac Sim
+          default: true
+      required:
+        - camera_topic
+        - map_frame
+        - base_frame
+
+    SLAMStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [idle, initializing, tracking, mapping, lost, error]
+          description: Current operational status of the SLAM system
+        tracking_quality:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Quality metric of the visual tracking (0-1)
+        map_size:
+          type: integer
+          description: Number of keyframes in the current map
+        position:
+          $ref: '#/components/schemas/Position'
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the status report
+
+    Position:
+      type: object
+      properties:
+        x:
+          type: number
+          description: X coordinate in map frame
+        y:
+          type: number
+          description: Y coordinate in map frame
+        z:
+          type: number
+          description: Z coordinate in map frame
+        qx:
+          type: number
+          description: Quaternion X component
+        qy:
+          type: number
+          description: Quaternion Y component
+        qz:
+          type: number
+          description: Quaternion Z component
+        qw:
+          type: number
+          description: Quaternion W component

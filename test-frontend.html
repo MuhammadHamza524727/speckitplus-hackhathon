@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test RAG Chatbot Functionality</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-area {
+            border: 2px solid #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+        }
+        .test-button {
+            background-color: #3578e5;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4ff;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test RAG Chatbot Functionality</h1>
+
+    <div class="test-area">
+        <h3>Test Text Selection and API Call</h3>
+        <p>Select some text below and click the button to test the API call:</p>
+
+        <p id="sample-text">Physical AI represents a groundbreaking approach to artificial intelligence that integrates physical interaction with intelligent decision-making. This field emphasizes the importance of embodied cognition, where a robot's physical form and interaction with the environment directly influence its intelligence and decision-making processes.</p>
+
+        <p>Another paragraph about robotics and artificial intelligence. The core principle is that intelligence emerges from the dynamic interaction between the robot's brain, body, and environment, rather than solely from computational power.</p>
+
+        <button class="test-button" onclick="testApiCall()">Test API Call with Selected Text</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function testApiCall() {
+            const selection = window.getSelection();
+            const selectedText = selection.toString().trim();
+
+            const resultDiv = document.getElementById('result');
+
+            if (!selectedText) {
+                resultDiv.innerHTML = '<div class="error">Please select some text first!</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<div class="success">Selected text: "' + selectedText + '"</div>';
+            resultDiv.innerHTML += '<div>Calling API...</div>';
+
+            try {
+                const response = await fetch('http://localhost:8001/rag-query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: selectedText }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                resultDiv.innerHTML += '<div class="response">API Response:<br><strong>Answer:</strong> ' +
+                    data.answer + '<br><br><strong>Sources:</strong> ' +
+                    JSON.stringify(data.sources, null, 2) + '</div>';
+
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+            }
+        }
+
+        // Add mouseup event to show selection
+        document.addEventListener('mouseup', function() {
+            const selection = window.getSelection();
+            const selectedText = selection.toString().trim();
+            if (selectedText) {
+                console.log('Selected text:', selectedText);
+            }
+        });
+    </script>
+</body>
+</html>

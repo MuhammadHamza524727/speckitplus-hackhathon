@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Robot head -->
+  <rect x="30" y="20" width="40" height="40" rx="5" fill="#438EE4"/>
+
+  <!-- Eyes -->
+  <circle cx="40" cy="35" r="4" fill="white"/>
+  <circle cx="60" cy="35" r="4" fill="white"/>
+  <circle cx="40" cy="35" r="2" fill="black"/>
+  <circle cx="60" cy="35" r="2" fill="black"/>
+
+  <!-- Mouth/LED display -->
+  <rect x="40" y="45" width="20" height="5" rx="2" fill="#00FF00"/>
+
+  <!-- Body -->
+  <rect x="35" y="60" width="30" height="30" rx="3" fill="#2C6CB0"/>
+
+  <!-- Arms -->
+  <rect x="20" y="65" width="15" height="5" rx="2" fill="#2C6CB0"/>
+  <rect x="65" y="65" width="15" height="5" rx="2" fill="#2C6CB0"/>
+
+  <!-- Decorative elements -->
+  <circle cx="50" cy="75" r="3" fill="#FFD700"/>
+</svg>

@@ -31,7 +31,7 @@ const FeatureList = [
       'Build realistic digital twins using Gazebo Harmonic, URDF/SDF humanoid models, sensor plugins, and Unity Robotics Hub integration.',
     tag: 'Chapter 3',
     tagColor: 'gold',
-    link: '/docs/chapter3-digital-twin/01-gazebo-setup',
+    link: '/docs/chapter3-digital-twin/gazebo-setup',
     cta: 'Explore Chapter 3',
   },
   {
@@ -41,7 +41,7 @@ const FeatureList = [
       'High-fidelity simulation with Isaac Sim, synthetic data generation, Isaac ROS vSLAM, and Nav2 sim-to-real transfer pipelines.',
     tag: 'Chapter 4',
     tagColor: 'green',
-    link: '/docs/chapter4-isaac/01-isaac-sim-intro',
+    link: '/docs/chapter4-isaac/isaac-sim-intro',
     cta: 'Explore Chapter 4',
   },
   {
@@ -61,7 +61,7 @@ const FeatureList = [
       'Production-ready navigation stacks — deploy Nav2 from simulation to real hardware with sensor fusion, costmaps, and behavior trees.',
     tag: 'Chapter 4 · Advanced',
     tagColor: 'gold',
-    link: '/docs/chapter4-isaac/04-nav2-sim-to-real',
+    link: '/docs/chapter4-isaac/nav2-sim-to-real',
     cta: 'Learn Nav2',
   },
 ];

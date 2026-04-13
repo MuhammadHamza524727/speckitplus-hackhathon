@@ -17,7 +17,9 @@
       "Bash(ls venv/bin/python*)",
       "Bash(venv/bin/python -m pip list 2>&1 | grep -iE \"cohere|qdrant|psycopg|dotenv\")",
       "Bash(venv/bin/python ingest.py 2>&1)",
-      "Bash(curl -s -w \"\\\\nHTTP_CODE: %{http_code}\" -H \"api-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.nmeUx-u8i3FQlODT9I9GT_DdYnr1pmV6u51BQvnicWM\" https://e9a66481-cf03-4bcc-b1c3-f5fe863f504e.us-east4-0.gcp.cloud.qdrant.io:6333/collections 2>&1)"
+      "Bash(curl -s -w \"\\\\nHTTP_CODE: %{http_code}\" -H \"api-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.nmeUx-u8i3FQlODT9I9GT_DdYnr1pmV6u51BQvnicWM\" https://e9a66481-cf03-4bcc-b1c3-f5fe863f504e.us-east4-0.gcp.cloud.qdrant.io:6333/collections 2>&1)",
+      "Bash(wait)",
+      "Bash(node:*)"
     ]
   }
 }

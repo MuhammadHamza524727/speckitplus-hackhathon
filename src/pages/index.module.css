@@ -1,18 +1,303 @@
+/* ============================================================
+   Homepage Styles — Physical AI Book
+   ============================================================ */
+
+/* ---------- Hero Banner ---------- */
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+  padding: 5rem 0 4rem;
+  text-align: left;
   position: relative;
   overflow: hidden;
+  min-height: 520px;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroBanner .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
 }
 
+/* ---------- Hero Content ---------- */
+.heroContent {
+  flex: 1;
+  max-width: 580px;
+  position: relative;
+  z-index: 1;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(220, 204, 172, 0.2);
+  border: 1px solid rgba(220, 204, 172, 0.5);
+  color: #DCCCAC;
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  color: #FFF8EC !important;
+  font-size: 3.2rem !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  margin-bottom: 1rem !important;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+}
+
+.heroTitleAccent {
+  color: #99AD7A;
+  display: block;
+}
+
+.heroSubtitle {
+  color: rgba(220, 204, 172, 0.9) !important;
+  font-size: 1.15rem !important;
+  line-height: 1.6;
+  margin-bottom: 2rem !important;
+  max-width: 480px;
+}
+
+/* ---------- Hero Stats ---------- */
+.heroStats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(153, 173, 122, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  width: fit-content;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.statNumber {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #99AD7A;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: rgba(220, 204, 172, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 3px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 36px;
+  background: rgba(153, 173, 122, 0.3);
+}
+
+/* ---------- Buttons ---------- */
 .buttons {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  background: linear-gradient(135deg, #DCCCAC, #c8b898) !important;
+  color: #546B41 !important;
+  border: none !important;
+  border-radius: 30px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px rgba(220, 204, 172, 0.3);
+  transition: all 0.25s ease !important;
+}
+
+.primaryBtn:hover {
+  background: linear-gradient(135deg, #c8b898, #b5a585) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 204, 172, 0.4) !important;
+  color: #3d4f30 !important;
+}
+
+.ghostBtn {
+  background: transparent !important;
+  color: #FFF8EC !important;
+  border: 2px solid rgba(255, 248, 236, 0.4) !important;
+  border-radius: 30px !important;
+  font-weight: 600 !important;
+  transition: all 0.25s ease !important;
+}
+
+.ghostBtn:hover {
+  background: rgba(255, 248, 236, 0.1) !important;
+  border-color: rgba(255, 248, 236, 0.8) !important;
+  transform: translateY(-2px);
+}
+
+/* ---------- Hero Visual ---------- */
+.heroVisual {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  flex-shrink: 0;
+}
+
+.robotCircle {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(153, 173, 122, 0.25), rgba(84, 107, 65, 0.15));
+  border: 2px solid rgba(153, 173, 122, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.robotEmoji {
+  font-size: 5rem;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.orbitRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
+  border: 1px dashed rgba(153, 173, 122, 0.3);
+  border-radius: 50%;
+  animation: spin 20s linear infinite;
+}
+
+.orbitRing2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 330px;
+  height: 330px;
+  border: 1px dashed rgba(220, 204, 172, 0.15);
+  border-radius: 50%;
+  animation: spin 35s linear infinite reverse;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.floatingTag {
+  position: absolute;
+  background: rgba(84, 107, 65, 0.85);
+  border: 1px solid rgba(153, 173, 122, 0.6);
+  color: #DCCCAC;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(8px);
+  z-index: 3;
+  white-space: nowrap;
+  animation: pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.7; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.04); }
+}
+
+/* ---------- Stats Bar ---------- */
+.statsBar {
+  background: #546B41;
+  border-bottom: 1px solid rgba(153, 173, 122, 0.3);
+  padding: 1rem 0;
+}
+
+.statsGrid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.statsBarItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #DCCCAC;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.statsBarItem span {
+  font-size: 1.1rem;
+}
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+  }
+
+  .heroBanner .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .heroTitle {
+    font-size: 2.4rem !important;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem !important;
+    max-width: 100%;
+  }
+
+  .heroStats {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .buttons {
+    justify-content: center;
+  }
+
+  .heroVisual {
+    width: 260px;
+    height: 260px;
+    display: none;
+  }
+
+  .statsGrid {
+    gap: 1.5rem;
+  }
 }

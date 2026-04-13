@@ -26,7 +26,7 @@ app.add_middleware(
 )
 
 co = cohere.Client(os.getenv("COHERE_API_KEY"))
-qdrant = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+qdrant = QdrantClient(url=os.getenv("QDRANT_URL", "").strip(), api_key=os.getenv("QDRANT_API_KEY", "").strip())
 
 COLLECTION = "physical_ai_book"
 
@@ -107,8 +107,8 @@ Question: {req.query}
 
 Answer:"""
 
-        # Using command-nightly model which should be available
-        chat_resp = co.chat(message=prompt, model="command-nightly", temperature=0.1)
+        # Using command-r-plus model (stable and available)
+        chat_resp = co.chat(message=prompt, model="command-r-plus", temperature=0.1)
         answer = chat_resp.text.strip()
 
         return QueryResponse(answer=answer, sources=sources, query=req.query)

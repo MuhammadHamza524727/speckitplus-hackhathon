@@ -1,1 +1,361 @@
-/* You can override the default Docusaurus styling here. */
+/* ============================================================
+   Physical AI Book — Custom Theme
+   Color Palette:
+     Primary Dark:   #546B41  rgb(84, 107, 65)
+     Primary Mid:    #99AD7A  rgb(153, 173, 122)
+     Warm Beige:     #DCCCAC  rgb(220, 204, 172)
+     Cream BG:       #FFF8EC  rgb(255, 248, 236)
+   ============================================================ */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --color-primary:        #546B41;
+  --color-primary-mid:    #99AD7A;
+  --color-beige:          #DCCCAC;
+  --color-cream:          #FFF8EC;
+  --color-primary-dark:   #3d4f30;
+  --color-primary-hover:  #6a8650;
+  --color-text-dark:      #2c3320;
+  --color-text-mid:       #4a5e38;
+  --color-text-light:     #6b7f58;
+
+  /* Docusaurus overrides — light mode */
+  --ifm-color-primary:          #546B41;
+  --ifm-color-primary-dark:     #3d4f30;
+  --ifm-color-primary-darker:   #344427;
+  --ifm-color-primary-darkest:  #263219;
+  --ifm-color-primary-light:    #6a8650;
+  --ifm-color-primary-lighter:  #7a9860;
+  --ifm-color-primary-lightest: #99AD7A;
+
+  --ifm-background-color:       #FFF8EC;
+  --ifm-background-surface-color: #fff;
+  --ifm-font-color-base:        #2c3320;
+
+  --ifm-navbar-background-color:  #546B41;
+  --ifm-navbar-link-color:        #FFF8EC;
+  --ifm-navbar-link-hover-color:  #DCCCAC;
+  --ifm-navbar-shadow:            0 2px 12px rgba(84,107,65,0.25);
+
+  --ifm-footer-background-color:  #3d4f30;
+  --ifm-footer-color:             #DCCCAC;
+  --ifm-footer-link-color:        #99AD7A;
+  --ifm-footer-link-hover-color:  #FFF8EC;
+
+  --ifm-code-font-size: 95%;
+  --ifm-border-radius: 8px;
+  --docusaurus-highlighted-code-line-bg: rgba(84, 107, 65, 0.12);
+}
+
+/* Dark mode — keep greens but deeper */
+[data-theme='dark'] {
+  --ifm-color-primary:          #99AD7A;
+  --ifm-color-primary-dark:     #86997f;
+  --ifm-color-primary-light:    #b0c290;
+
+  --ifm-background-color:       #1e2419;
+  --ifm-background-surface-color: #252d1e;
+  --ifm-font-color-base:        #e8f0dc;
+
+  --ifm-navbar-background-color:  #252d1e;
+  --ifm-footer-background-color:  #151a10;
+
+  --docusaurus-highlighted-code-line-bg: rgba(153,173,122,0.15);
+}
+
+/* ---------- Global Body ---------- */
+html, body {
+  background-color: var(--color-cream);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  background: linear-gradient(135deg, #546B41 0%, #3d4f30 100%);
+  border-bottom: 2px solid #99AD7A;
+  box-shadow: 0 2px 16px rgba(84,107,65,0.3);
+}
+
+.navbar__title {
+  color: #FFF8EC !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+}
+
+.navbar__logo {
+  filter: brightness(0) invert(1);
+}
+
+.navbar__link {
+  color: #FFF8EC !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: #DCCCAC !important;
+}
+
+/* Search bar in navbar */
+.navbar__search-input {
+  background: rgba(255,248,236,0.15);
+  border: 1px solid rgba(220,204,172,0.4);
+  color: #FFF8EC;
+  border-radius: 20px;
+}
+
+.navbar__search-input::placeholder {
+  color: rgba(255,248,236,0.6);
+}
+
+/* ---------- Sidebar ---------- */
+.menu__link {
+  color: var(--color-text-mid);
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.menu__link:hover {
+  background: rgba(153,173,122,0.2);
+  color: var(--color-primary);
+}
+
+.menu__link--active {
+  background: rgba(84,107,65,0.12) !important;
+  color: var(--color-primary) !important;
+  font-weight: 600;
+  border-left: 3px solid var(--color-primary);
+}
+
+.menu__caret::before {
+  border-color: var(--color-primary-mid);
+}
+
+/* ---------- Hero Section ---------- */
+.hero.hero--primary {
+  background: linear-gradient(135deg, #546B41 0%, #3d4f30 60%, #263219 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero.hero--primary::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(153,173,122,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero.hero--primary::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(220,204,172,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero__title {
+  color: #FFF8EC !important;
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.hero__subtitle {
+  color: #DCCCAC !important;
+  font-size: 1.2rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* ---------- Buttons ---------- */
+.button--secondary {
+  background: transparent;
+  border: 2px solid #DCCCAC;
+  color: #FFF8EC !important;
+  border-radius: 30px;
+  padding: 12px 28px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: all 0.25s ease;
+}
+
+.button--secondary:hover {
+  background: #DCCCAC;
+  color: #546B41 !important;
+  border-color: #DCCCAC;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220,204,172,0.35);
+  text-decoration: none;
+}
+
+.button--primary {
+  background: linear-gradient(135deg, #546B41, #6a8650);
+  border: none;
+  color: #FFF8EC !important;
+  border-radius: 30px;
+  padding: 12px 28px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.button--primary:hover {
+  background: linear-gradient(135deg, #6a8650, #7a9860);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(84,107,65,0.4);
+}
+
+/* ---------- Feature Cards ---------- */
+.features {
+  background: #FFF8EC;
+  padding: 4rem 0;
+}
+
+/* ---------- Doc Article ---------- */
+.markdown h1 {
+  color: var(--color-primary);
+  border-bottom: 3px solid var(--color-primary-mid);
+  padding-bottom: 0.5rem;
+}
+
+.markdown h2 {
+  color: var(--color-primary);
+  border-left: 4px solid var(--color-primary-mid);
+  padding-left: 0.75rem;
+}
+
+.markdown h3 {
+  color: var(--color-text-mid);
+}
+
+.markdown a {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.markdown a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Code blocks */
+.prism-code {
+  border: 1px solid var(--color-beige);
+  border-radius: 8px;
+}
+
+/* Blockquote */
+.markdown blockquote {
+  border-left: 4px solid var(--color-primary-mid);
+  background: rgba(220,204,172,0.2);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.5rem;
+}
+
+/* ---------- Table of Contents ---------- */
+.table-of-contents__link {
+  color: var(--color-text-light);
+  transition: color 0.2s;
+}
+
+.table-of-contents__link:hover,
+.table-of-contents__link--active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ---------- Pagination / Breadcrumb ---------- */
+.pagination-nav__link {
+  border: 1px solid var(--color-beige);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--color-primary-mid);
+  box-shadow: 0 2px 12px rgba(84,107,65,0.15);
+}
+
+.pagination-nav__label {
+  color: var(--color-primary);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: linear-gradient(135deg, #3d4f30 0%, #263219 100%);
+  border-top: 2px solid #546B41;
+}
+
+.footer__title {
+  color: #99AD7A;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.footer__link-item {
+  color: #DCCCAC;
+  transition: color 0.2s;
+}
+
+.footer__link-item:hover {
+  color: #FFF8EC;
+  text-decoration: none;
+}
+
+.footer__copyright {
+  color: rgba(220,204,172,0.6);
+  font-size: 0.85rem;
+}
+
+/* ---------- Admonitions ---------- */
+.admonition {
+  border-radius: 8px;
+  border-left-width: 4px;
+}
+
+.admonition-note {
+  border-color: var(--color-primary-mid);
+  background: rgba(153,173,122,0.1);
+}
+
+.admonition-tip {
+  border-color: var(--color-primary);
+  background: rgba(84,107,65,0.08);
+}
+
+/* ---------- Scrollbar (webkit) ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFF8EC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #99AD7A;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #546B41;
+}
+
+/* ---------- Selection Highlight ---------- */
+::selection {
+  background: rgba(153,173,122,0.4);
+  color: #2c3320;
+}

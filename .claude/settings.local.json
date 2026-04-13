@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch --all --prune)",
+      "Bash(timeout 30s npm run build)",
+      "WebFetch(domain:speckitplus-hackhathon.vercel.app)",
+      "Bash(find /mnt/d/desktop/hackhathon_spec_driven/hackathon1/hackhthon-robotic-book -maxdepth 1 -type f -name \"*.json\" -o -name \"*.yaml\" -o -name \"*.yml\" 2>/dev/null | grep -v package)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{url_effective} %{redirect_url}\" https://speckitplus-hackhathon.vercel.app 2>&1)",
+      "Bash(curl -s https://speckitplus-hackhathon.vercel.app | head -100)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://hamza-developer-speckitplus-backend.hf.space/health 2>&1)",
+      "Bash(curl -s https://hamza-developer-speckitplus-backend.hf.space/ 2>&1)",
+      "Bash(curl -s https://hamza-developer-speckitplus-backend.hf.space/health 2>&1)",
+      "Bash(curl -s -X POST https://hamza-developer-speckitplus-backend.hf.space/rag-query -H \"Content-Type: application/json\" -d '{\"query\": \"What is ROS 2?\"}' 2>&1)",
+      "Bash(find /mnt/d/desktop/hackhathon_spec_driven/hackathon1/hackhthon-robotic-book/specs -type f -name \"*.md\" 2>/dev/null | head -20)",
+      "Bash(ls -la /mnt/d/desktop/hackhathon_spec_driven/hackathon1/hackhthon-robotic-book/*.md 2>/dev/null)",
+      "Bash(venv/bin/pip install -q cohere qdrant-client psycopg2-binary python-dotenv 2>&1 | tail -10)",
+      "Bash(ls venv/bin/python*)",
+      "Bash(venv/bin/python -m pip list 2>&1 | grep -iE \"cohere|qdrant|psycopg|dotenv\")",
+      "Bash(venv/bin/python ingest.py 2>&1)",
+      "Bash(curl -s -w \"\\\\nHTTP_CODE: %{http_code}\" -H \"api-key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.nmeUx-u8i3FQlODT9I9GT_DdYnr1pmV6u51BQvnicWM\" https://e9a66481-cf03-4bcc-b1c3-f5fe863f504e.us-east4-0.gcp.cloud.qdrant.io:6333/collections 2>&1)"
+    ]
+  }
+}

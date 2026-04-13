@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 /**
  * Simple RAG Chatbot Component
  * Adds text selection functionality to Docusaurus pages
+ * Theme: Physical AI Book green palette
  */
 const SimpleRagChatbot = () => {
   const [selectedText, setSelectedText] = useState('');
@@ -13,92 +14,68 @@ const SimpleRagChatbot = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // ---- Color palette ----
+  const C = {
+    primary:    '#546B41',
+    primaryMid: '#99AD7A',
+    beige:      '#DCCCAC',
+    cream:      '#FFF8EC',
+    dark:       '#3d4f30',
+    textDark:   '#2c3320',
+    textMid:    '#4a5e38',
+  };
+
   // Handle text selection
   useEffect(() => {
     const handleSelection = () => {
-      // Small delay to ensure selection is complete
       setTimeout(() => {
         const selection = window.getSelection();
         const text = selection.toString().trim();
 
-        console.log('Text selection detected:', text); // Debug log
-        console.log('Selection range count:', selection.rangeCount); // Debug log
-
         if (text.length > 0 && selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
           const rect = range.getBoundingClientRect();
-
-          console.log('Selection rect:', rect); // Debug log
-
-          // More robust position calculation accounting for page scroll
           const x = rect.left + window.pageXOffset;
-          const y = rect.top + window.pageYOffset - 40; // Position above the selection
-
-          // Ensure the button stays within viewport
-          const buttonX = Math.max(10, Math.min(x, window.innerWidth - 60));
-          const buttonY = Math.max(10, Math.min(y, window.innerHeight - 40));
-
-          console.log('Calculated button position:', { x: buttonX, y: buttonY }); // Debug log
-
-          setButtonPosition({
-            x: buttonX,
-            y: buttonY,
-          });
-
+          const y = rect.top + window.pageYOffset - 48;
+          const buttonX = Math.max(10, Math.min(x, window.innerWidth - 100));
+          const buttonY = Math.max(10, Math.min(y, window.innerHeight - 48));
+          setButtonPosition({ x: buttonX, y: buttonY });
           setSelectedText(text);
           setShowButton(true);
         } else {
-          console.log('No text selected or no range'); // Debug log
           setShowButton(false);
           setSelectedText('');
         }
-      }, 10); // Small delay to ensure selection is finalized
+      }, 10);
     };
 
-    document.addEventListener('mouseup', handleSelection);
-    document.addEventListener('keyup', (e) => {
+    const handleKeyUp = (e) => {
       if (e.key === 'Escape') {
         setShowButton(false);
         setShowChat(false);
       }
-    });
+    };
 
+    document.addEventListener('mouseup', handleSelection);
+    document.addEventListener('keyup', handleKeyUp);
     return () => {
       document.removeEventListener('mouseup', handleSelection);
-      document.removeEventListener('keyup', (e) => {
-        if (e.key === 'Escape') {
-          setShowButton(false);
-          setShowChat(false);
-        }
-      });
+      document.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
   // Handle "Ask AI" button click
   const handleAskAI = async () => {
     if (!selectedText) return;
-
     setLoading(true);
-
-    // Add the selected text as a user message
     const userMessage = { type: 'user', content: selectedText, timestamp: new Date() };
     setMessages(prev => [...prev, userMessage]);
-
-    // Show the chat interface
     setShowChat(true);
-// https://hamza-developer-speckitplus-backend.hf.space/
-// http://127.0.0.1:8000
+
     try {
-      // First, check if the backend is accessible
-      const healthCheck = await fetch('https://hamza-developer-speckitplus-backend.hf.space/health');
-      if (!healthCheck.ok) {
-        console.warn('Backend health check failed:', healthCheck.status);
-      }
       const response = await fetch('https://hamza-developer-speckitplus-backend.hf.space/rag-query', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: selectedText }),
       });
 
@@ -107,215 +84,221 @@ const SimpleRagChatbot = () => {
       }
 
       const data = await response.json();
-      // Handle response from backend
       let responseText = data.answer || data.response || 'No response received';
 
-      // Add source information if available
       if (data.sources && data.sources.length > 0) {
-        const sourcesText = `\n\nSources:\n${data.sources.map(source =>
-          `- ${source.file} (Chunk: ${source.chunk_index}, Score: ${source.score})`
+        const sourcesText = `\n\n📎 Sources:\n${data.sources.map(s =>
+          `• ${s.file} (Chunk: ${s.chunk_index}, Score: ${s.score})`
         ).join('\n')}`;
         responseText += sourcesText;
       }
 
-      // Add AI response as a bot message
-      const aiMessage = { type: 'bot', content: responseText, timestamp: new Date() };
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages(prev => [...prev, { type: 'bot', content: responseText, timestamp: new Date() }]);
     } catch (err) {
-      console.error('API Error:', err); // Log for debugging
-      let errorMessageContent = `Error: ${err.message}`;
-
-      // Provide more specific error messages
+      let errorContent = `⚠️ ${err.message}`;
       if (err.message.includes('500')) {
-        errorMessageContent = `Server Error (500): The backend service encountered an issue. This could be due to missing environment variables or service connectivity problems.`;
+        errorContent = '⚠️ Server Error (500): The backend encountered an issue. Please try again shortly.';
       } else if (err.message.includes('404')) {
-        errorMessageContent = `API Endpoint Error (404): The backend endpoint may not be available.`;
-      } else if (err.message.includes('Network Error')) {
-        errorMessageContent = `Network Error: Unable to connect to the backend service. Please check if the service is running.`;
+        errorContent = '⚠️ Endpoint not found (404). Please check the backend configuration.';
+      } else if (err.message.includes('Failed to fetch') || err.message.includes('Network')) {
+        errorContent = '⚠️ Cannot connect to the backend. Is it running?';
       }
-
-      const errorMessage = { type: 'bot', content: errorMessageContent, timestamp: new Date() };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages(prev => [...prev, { type: 'bot', content: errorContent, timestamp: new Date() }]);
     } finally {
       setLoading(false);
       setShowButton(false);
     }
   };
 
-  // Close chat
   const closeChat = () => {
     setShowChat(false);
     setMessages([]);
   };
 
-  // Button component that appears on text selection
+  // ---- Ask Button ----
   const ButtonComponent = () => {
     if (!showButton) return null;
-
-    const buttonStyle = {
-      position: 'fixed',
-      top: `${buttonPosition.y}px`,
-      left: `${buttonPosition.x}px`,
-      zIndex: 999999, // Very high z-index to ensure it appears on top of everything
-      backgroundColor: '#3578e5',
-      color: 'white',
-      border: 'none',
-      borderRadius: '20px',
-      padding: '8px 12px',
-      fontSize: '14px',
-      fontWeight: 'bold',
-      cursor: 'pointer',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-      transform: 'translateY(-10px)',
-      transition: 'all 0.2s ease, opacity 0.2s ease',
-      pointerEvents: 'auto', // Ensure it can receive click events
-      userSelect: 'none', // Prevent text selection issues
-      MozUserSelect: 'none',
-      WebkitUserSelect: 'none',
-      msUserSelect: 'none',
-      outline: 'none',
-      minWidth: '50px',
-      textAlign: 'center',
-    };
-
     return (
       <button
-        style={buttonStyle}
+        style={{
+          position: 'fixed',
+          top: `${buttonPosition.y}px`,
+          left: `${buttonPosition.x}px`,
+          zIndex: 999999,
+          background: `linear-gradient(135deg, ${C.primary}, ${C.dark})`,
+          color: C.cream,
+          border: `1.5px solid ${C.primaryMid}`,
+          borderRadius: '22px',
+          padding: '8px 16px',
+          fontSize: '13px',
+          fontWeight: '700',
+          cursor: 'pointer',
+          boxShadow: `0 4px 16px rgba(84,107,65,0.45)`,
+          letterSpacing: '0.03em',
+          userSelect: 'none',
+          outline: 'none',
+          minWidth: '80px',
+          textAlign: 'center',
+          transition: 'transform 0.15s, box-shadow 0.15s',
+        }}
         onClick={handleAskAI}
-        onMouseDown={(e) => e.preventDefault()} // Prevent text deselection
+        onMouseDown={(e) => e.preventDefault()}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.boxShadow = `0 8px 24px rgba(84,107,65,0.5)`;
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = `0 4px 16px rgba(84,107,65,0.45)`;
+        }}
       >
-        💬 Ask
+        💬 Ask AI
       </button>
     );
   };
 
-  // Chat component for displaying conversation
+  // ---- Chat Window ----
   const ChatComponent = () => {
     if (!showChat) return null;
-
-    const chatContainerStyle = {
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      width: '380px',
-      height: '450px',
-      zIndex: 999998, // High z-index but slightly below the button
-      display: 'flex',
-      flexDirection: 'column',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      pointerEvents: 'auto',
-    };
-
-    const chatHeaderStyle = {
-      backgroundColor: '#3578e5',
-      color: 'white',
-      padding: '12px 16px',
-      borderTopLeftRadius: '8px',
-      borderTopRightRadius: '8px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    };
-
-    const chatBodyStyle = {
-      flex: 1,
-      backgroundColor: 'white',
-      padding: '16px',
-      overflowY: 'auto',
-      borderBottomLeftRadius: '8px',
-      borderBottomRightRadius: '8px',
-      border: '1px solid #ddd',
-      borderTop: 'none',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '12px',
-    };
-
-    const messageStyle = {
-      padding: '10px 14px',
-      borderRadius: '18px',
-      maxWidth: '85%',
-      wordWrap: 'break-word',
-      fontSize: '14px',
-      lineHeight: '1.4',
-    };
-
-    const userMessageStyle = {
-      ...messageStyle,
-      backgroundColor: '#e3f2fd',
-      marginLeft: 'auto',
-      marginRight: '0',
-      border: '1px solid #bbdefb',
-    };
-
-    const botMessageStyle = {
-      ...messageStyle,
-      backgroundColor: '#f5f5f5',
-      marginLeft: '0',
-      marginRight: 'auto',
-      border: '1px solid #e0e0e0',
-    };
-
-    const closeBtnStyle = {
-      background: 'none',
-      border: 'none',
-      fontSize: '18px',
-      cursor: 'pointer',
-      color: 'white',
-      padding: 0,
-      width: '24px',
-      height: '24px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '50%',
-      lineHeight: '1',
-    };
-
-    closeBtnStyle['&:hover'] = {
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    };
-
-    const loadingStyle = {
-      textAlign: 'center',
-      padding: '10px',
-      color: '#666',
-      fontStyle: 'italic',
-    };
-
     return (
-      <div style={chatContainerStyle}>
-        <div style={chatHeaderStyle}>
-          <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 'normal' }}>📚 Book Assistant</h4>
-          <button style={closeBtnStyle} onClick={closeChat}>
-            ×
-          </button>
+      <div style={{
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        width: '400px',
+        height: '480px',
+        zIndex: 999998,
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: "'Inter', system-ui, sans-serif",
+        borderRadius: '16px',
+        boxShadow: '0 20px 60px rgba(84,107,65,0.25), 0 4px 16px rgba(0,0,0,0.12)',
+        overflow: 'hidden',
+      }}>
+        {/* Header */}
+        <div style={{
+          background: `linear-gradient(135deg, ${C.primary} 0%, ${C.dark} 100%)`,
+          color: C.cream,
+          padding: '14px 18px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderBottom: `2px solid ${C.primaryMid}`,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{
+              width: '32px', height: '32px',
+              background: 'rgba(153,173,122,0.25)',
+              borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '16px',
+            }}>📚</div>
+            <div>
+              <div style={{ fontWeight: '700', fontSize: '14px', lineHeight: 1 }}>Book AI Assistant</div>
+              <div style={{ fontSize: '11px', color: C.beige, opacity: 0.8, marginTop: '2px' }}>
+                Powered by Cohere + Qdrant RAG
+              </div>
+            </div>
+          </div>
+          <button
+            style={{
+              background: 'rgba(255,248,236,0.1)', border: 'none',
+              color: C.cream, cursor: 'pointer', fontSize: '20px',
+              width: '28px', height: '28px', borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              lineHeight: 1, padding: 0,
+            }}
+            onClick={closeChat}
+          >×</button>
         </div>
-        <div style={chatBodyStyle}>
+
+        {/* Body */}
+        <div style={{
+          flex: 1,
+          background: C.cream,
+          padding: '16px',
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+        }}>
           {messages.length === 0 && !loading && (
-            <div style={{ textAlign: 'center', color: '#888', fontStyle: 'italic', marginTop: '20px' }}>
-              Selected text will appear here...
+            <div style={{
+              textAlign: 'center',
+              color: C.textMid,
+              padding: '2rem 1rem',
+              opacity: 0.6,
+            }}>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>💡</div>
+              <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
+                Select any text on the page and click "Ask AI" to get explanations from the book.
+              </div>
             </div>
           )}
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              style={message.type === 'user' ? userMessageStyle : botMessageStyle}
-            >
-              {message.content}
+          {messages.map((msg, i) => (
+            <div key={i} style={{
+              padding: '10px 14px',
+              borderRadius: msg.type === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+              maxWidth: '88%',
+              wordWrap: 'break-word',
+              fontSize: '13.5px',
+              lineHeight: '1.55',
+              whiteSpace: 'pre-wrap',
+              ...(msg.type === 'user'
+                ? {
+                    background: `linear-gradient(135deg, ${C.primary}, ${C.dark})`,
+                    color: C.cream,
+                    marginLeft: 'auto',
+                    marginRight: '0',
+                    boxShadow: '0 2px 8px rgba(84,107,65,0.25)',
+                  }
+                : {
+                    background: '#fff',
+                    color: C.textDark,
+                    marginLeft: '0',
+                    marginRight: 'auto',
+                    border: `1px solid ${C.beige}`,
+                    boxShadow: '0 2px 8px rgba(220,204,172,0.2)',
+                  }),
+            }}>
+              {msg.content}
             </div>
           ))}
           {loading && (
-            <div style={loadingStyle}>
-              🤔 Thinking...
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '10px 14px',
+              background: '#fff',
+              border: `1px solid ${C.beige}`,
+              borderRadius: '16px 16px 16px 4px',
+              width: 'fit-content',
+              color: C.textMid,
+              fontSize: '13px',
+            }}>
+              <span style={{ animation: 'spin 1s linear infinite', display: 'inline-block' }}>⚙️</span>
+              Thinking...
             </div>
           )}
+        </div>
+
+        {/* Footer hint */}
+        <div style={{
+          background: '#fff',
+          borderTop: `1px solid ${C.beige}`,
+          padding: '8px 16px',
+          fontSize: '11px',
+          color: C.textMid,
+          opacity: 0.7,
+          textAlign: 'center',
+        }}>
+          Press Esc to close • Select text to ask another question
         </div>
       </div>
     );
   };
 
-  // Render button and chat using React portals
   return (
     <>
       {showButton && createPortal(<ButtonComponent />, document.body)}

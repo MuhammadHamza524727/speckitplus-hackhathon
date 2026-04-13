@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #FFF8EC 0%, #f0e4ca 100%);
-  padding: 2rem 1rem;
+  padding: 1rem;
 }
 
 :global([data-theme='dark']) .authPage {
@@ -16,11 +16,11 @@
   background: #ffffff;
   border: 2px solid #DCCCAC;
   border-top: 4px solid #546B41;
-  border-radius: 20px;
-  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 60px rgba(84,107,65,0.12);
+  max-width: 380px;
+  box-shadow: 0 12px 40px rgba(84,107,65,0.12);
 }
 
 :global([data-theme='dark']) .authCard {
@@ -31,26 +31,26 @@
 }
 
 /* ── Header ─── */
-.authHeader { text-align: center; margin-bottom: 2rem; }
+.authHeader { text-align: center; margin-bottom: 1.25rem; }
 
 .authLogo {
-  font-size: 3rem;
-  margin-bottom: 0.75rem;
+  font-size: 2rem;
+  margin-bottom: 0.4rem;
   display: block;
   filter: drop-shadow(0 4px 8px rgba(84,107,65,0.3));
 }
 
 .authTitle {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #1e2a14;
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.2rem;
 }
 
 :global([data-theme='dark']) .authTitle { color: #ddeac8; }
 
 .authSubtitle {
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   color: #6b7f58;
   margin: 0;
 }
@@ -62,10 +62,10 @@
   background: rgba(220, 50, 50, 0.08);
   border: 1px solid rgba(220, 50, 50, 0.3);
   color: #c0392b;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 0.88rem;
-  margin-bottom: 1.25rem;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  margin-bottom: 0.9rem;
   font-weight: 500;
 }
 
@@ -75,12 +75,12 @@
 }
 
 /* ── Form ─── */
-.authForm { display: flex; flex-direction: column; gap: 1.1rem; }
+.authForm { display: flex; flex-direction: column; gap: 0.7rem; }
 
-.formGroup { display: flex; flex-direction: column; gap: 6px; }
+.formGroup { display: flex; flex-direction: column; gap: 4px; }
 
 .formLabel {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #4a5e38;
   letter-spacing: 0.03em;
@@ -89,10 +89,10 @@
 :global([data-theme='dark']) .formLabel { color: #99AD7A; }
 
 .formInput {
-  padding: 11px 14px;
+  padding: 8px 12px;
   border: 1.5px solid #DCCCAC;
-  border-radius: 10px;
-  font-size: 0.95rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
   background: #FFF8EC;
   color: #1e2a14;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -120,13 +120,13 @@
 
 /* ── Submit Button ─── */
 .authBtn {
-  margin-top: 0.5rem;
-  padding: 13px;
+  margin-top: 0.4rem;
+  padding: 9px;
   background: linear-gradient(135deg, #546B41, #3d4f30);
   color: #FFF8EC;
   border: none;
   border-radius: 30px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.22s ease;
@@ -149,8 +149,8 @@
 /* ── Footer Link ─── */
 .authSwitch {
   text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
+  margin-top: 1rem;
+  font-size: 0.82rem;
   color: #6b7f58;
 }
 
@@ -169,6 +169,6 @@
 :global([data-theme='dark']) .authLink:hover { color: #E8A84E; }
 
 @media (max-width: 480px) {
-  .authCard { padding: 2rem 1.25rem; }
-  .authTitle { font-size: 1.5rem; }
+  .authCard { padding: 1.25rem 1rem; }
+  .authTitle { font-size: 1.25rem; }
 }

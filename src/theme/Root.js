@@ -1,15 +1,14 @@
 import React from 'react';
+import { AuthProvider } from '@site/src/context/AuthContext';
 import SimpleRagChatbot from '@site/src/components/SimpleRagChatbot';
+import NavbarUser from '@site/src/components/NavbarUser';
 
-/**
- * Root component that wraps the entire Docusaurus application
- * Used to add global functionality like the SimpleRagChatbot
- */
 export default function Root({ children }) {
   return (
-    <>
+    <AuthProvider>
       {children}
       <SimpleRagChatbot />
-    </>
+      <NavbarUser />
+    </AuthProvider>
   );
 }

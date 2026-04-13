@@ -12,6 +12,8 @@ from passlib.context import CryptContext
 import psycopg2
 import psycopg2.extras
 import os
+import hashlib
+import base64
 
 load_dotenv()
 
@@ -41,6 +43,11 @@ qdrant = QdrantClient(url=os.getenv("QDRANT_URL","").strip(), api_key=os.getenv(
 
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer  = HTTPBearer(auto_error=False)
+
+def _prep_password(password: str) -> str:
+    """SHA-256 pre-hash to avoid bcrypt 72-byte limit."""
+    digest = hashlib.sha256(password.encode()).digest()
+    return base64.b64encode(digest).decode()
 
 # ─── DB Helper ────────────────────────────────────────
 def get_db():
@@ -183,7 +190,7 @@ def signup(req: SignupRequest):
         if cur.fetchone():
             raise HTTPException(400, "Email already registered")
 
-        hashed = pwd_ctx.hash(req.password)
+        hashed = pwd_ctx.hash(_prep_password(req.password))
         cur.execute(
             "INSERT INTO users (name, email, password) VALUES (%s,%s,%s) RETURNING id, name, email",
             (req.name, req.email, hashed)
@@ -211,7 +218,7 @@ def login(req: LoginRequest):
         user = cur.fetchone()
         cur.close(); conn.close()
 
-        if not user or not pwd_ctx.verify(req.password, user["password"]):
+        if not user or not pwd_ctx.verify(_prep_password(req.password), user["password"]):
             raise HTTPException(401, "Invalid email or password")
 
         token = create_token(user["id"], user["email"])

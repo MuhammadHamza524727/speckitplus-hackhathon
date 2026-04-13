@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import Link from '@docusaurus/Link';
 import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
@@ -7,58 +8,87 @@ const FeatureList = [
     icon: '🤖',
     title: 'Physical AI & Humanoid Robotics',
     description:
-      'Learn about cutting-edge Physical AI and humanoid robotics — combining artificial intelligence with mechanical engineering to create intelligent, embodied systems.',
-    tag: 'Core Concepts',
+      'Foundations of embodied intelligence — how AI moves from virtual to physical, humanoid design principles, and sensor-driven cognition.',
+    tag: 'Chapter 1',
+    tagColor: 'green',
+    link: '/docs/chapter1-intro',
+    cta: 'Read Chapter 1',
   },
   {
     icon: '📡',
-    title: 'ROS 2 Framework',
+    title: 'ROS 2 — Robotic Nervous System',
     description:
-      'Master the Robot Operating System 2 (ROS 2), the middleware framework that serves as the nervous system for all modern robotic applications.',
-    tag: 'Middleware',
+      'Master ROS 2 nodes, topics, services, actions, rclpy, launch files, and URDF — the complete middleware for humanoid robot control.',
+    tag: 'Chapter 2',
+    tagColor: 'teal',
+    link: '/docs/chapter2-ros2',
+    cta: 'Read Chapter 2',
   },
   {
-    icon: '🎓',
-    title: 'Step-by-Step Learning',
+    icon: '🌐',
+    title: 'Digital Twins & Gazebo Simulation',
     description:
-      'Comprehensive, student-centered content with step-by-step explanations, practical examples, hands-on exercises, and real simulation environments.',
-    tag: 'Education',
-  },
-  {
-    icon: '🔬',
-    title: 'Simulation Environments',
-    description:
-      'Hands-on experience with Gazebo Harmonic and NVIDIA Isaac Sim — industry-standard simulation platforms used in professional robotics development.',
-    tag: 'Simulation',
-  },
-  {
-    icon: '💬',
-    title: 'AI Book Assistant',
-    description:
-      'Select any text on the page and ask the AI assistant for deeper explanations. Powered by Cohere + Qdrant RAG for accurate, book-grounded answers.',
-    tag: 'AI-Powered',
+      'Build realistic digital twins using Gazebo Harmonic, URDF/SDF humanoid models, sensor plugins, and Unity Robotics Hub integration.',
+    tag: 'Chapter 3',
+    tagColor: 'gold',
+    link: '/docs/chapter3-digital-twin/01-gazebo-setup',
+    cta: 'Explore Chapter 3',
   },
   {
     icon: '🚀',
-    title: 'Production-Ready Skills',
+    title: 'NVIDIA Isaac Sim Platform',
     description:
-      'From sensor fusion to Nav2 navigation stacks — develop production-ready skills that translate directly to real-world robotics engineering careers.',
-    tag: 'Industry',
+      'High-fidelity simulation with Isaac Sim, synthetic data generation, Isaac ROS vSLAM, and Nav2 sim-to-real transfer pipelines.',
+    tag: 'Chapter 4',
+    tagColor: 'green',
+    link: '/docs/chapter4-isaac/01-isaac-sim-intro',
+    cta: 'Explore Chapter 4',
+  },
+  {
+    icon: '💬',
+    title: 'AI Book Assistant (RAG)',
+    description:
+      'Select any text on any page and instantly query the AI assistant. Powered by Cohere embeddings + Qdrant vector search for book-grounded answers.',
+    tag: 'AI Feature',
+    tagColor: 'teal',
+    link: '/docs/test-ragchatbot',
+    cta: 'Try AI Assistant',
+  },
+  {
+    icon: '🎯',
+    title: 'Nav2 — Sim to Real Transfer',
+    description:
+      'Production-ready navigation stacks — deploy Nav2 from simulation to real hardware with sensor fusion, costmaps, and behavior trees.',
+    tag: 'Chapter 4 · Advanced',
+    tagColor: 'gold',
+    link: '/docs/chapter4-isaac/04-nav2-sim-to-real',
+    cta: 'Learn Nav2',
   },
 ];
 
-function Feature({ icon, title, description, tag }) {
+const TAG_STYLES = {
+  green: styles.tagGreen,
+  teal:  styles.tagTeal,
+  gold:  styles.tagGold,
+};
+
+function Feature({ icon, title, description, tag, tagColor, link, cta }) {
   return (
     <div className={clsx('col col--4', styles.featureCol)}>
-      <div className={styles.featureCard}>
-        <div className={styles.featureTag}>{tag}</div>
-        <div className={styles.featureIcon}>{icon}</div>
-        <h3 className={styles.featureTitle}>{title}</h3>
-        <p className={styles.featureDesc}>{description}</p>
-        <div className={styles.featureFooter}>
-          <span className={styles.featureArrow}>Learn more →</span>
+      <Link to={link} className={styles.featureCardLink}>
+        <div className={styles.featureCard}>
+          {/* top accent bar injected via CSS ::before */}
+          <div className={styles.featureTop}>
+            <span className={clsx(styles.featureTag, TAG_STYLES[tagColor])}>{tag}</span>
+          </div>
+          <div className={styles.featureIcon}>{icon}</div>
+          <h3 className={styles.featureTitle}>{title}</h3>
+          <p className={styles.featureDesc}>{description}</p>
+          <div className={styles.featureFooter}>
+            <span className={styles.featureCta}>{cta} →</span>
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
@@ -68,10 +98,13 @@ export default function HomepageFeatures() {
     <section className={styles.features}>
       <div className="container">
         <div className={styles.sectionHeader}>
-          <div className={styles.sectionBadge}>What You Will Learn</div>
-          <h2 className={styles.sectionTitle}>Everything You Need to Master Robotics</h2>
+          <div className={styles.sectionBadge}>Curriculum Overview</div>
+          <h2 className={styles.sectionTitle}>
+            Everything You Need to Master Physical AI
+          </h2>
           <p className={styles.sectionSubtitle}>
-            A structured curriculum from fundamentals to advanced deployment, with AI-powered assistance throughout.
+            Click any card to jump directly into that chapter — from ROS 2 fundamentals
+            to production Nav2 deployments.
           </p>
         </div>
         <div className="row">

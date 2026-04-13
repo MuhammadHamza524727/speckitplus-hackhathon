@@ -2,13 +2,13 @@
    Homepage Styles — Physical AI Book
    ============================================================ */
 
-/* ---------- Hero Banner ---------- */
+/* ─── Hero Banner ─── */
 .heroBanner {
   padding: 5rem 0 4rem;
   text-align: left;
   position: relative;
   overflow: hidden;
-  min-height: 520px;
+  min-height: 540px;
 }
 
 .heroBanner .container {
@@ -16,28 +16,28 @@
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
+  position: relative;
+  z-index: 1;
 }
 
-/* ---------- Hero Content ---------- */
+/* ─── Hero Content ─── */
 .heroContent {
   flex: 1;
   max-width: 580px;
-  position: relative;
-  z-index: 1;
 }
 
 .heroBadge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(220, 204, 172, 0.2);
-  border: 1px solid rgba(220, 204, 172, 0.5);
-  color: #DCCCAC;
+  background: rgba(200,135,58,0.18);
+  border: 1px solid rgba(200,135,58,0.45);
+  color: #E8A84E;
   border-radius: 30px;
   padding: 6px 16px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   margin-bottom: 1.5rem;
   text-transform: uppercase;
 }
@@ -48,7 +48,7 @@
   font-weight: 800 !important;
   line-height: 1.15 !important;
   margin-bottom: 1rem !important;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 16px rgba(0,0,0,0.25);
 }
 
 .heroTitleAccent {
@@ -57,24 +57,24 @@
 }
 
 .heroSubtitle {
-  color: rgba(220, 204, 172, 0.9) !important;
-  font-size: 1.15rem !important;
-  line-height: 1.6;
+  color: rgba(220,204,172,0.9) !important;
+  font-size: 1.1rem !important;
+  line-height: 1.7;
   margin-bottom: 2rem !important;
   max-width: 480px;
 }
 
-/* ---------- Hero Stats ---------- */
+/* ─── Hero Stats ─── */
 .heroStats {
   display: flex;
   align-items: center;
-  gap: 0;
   margin-bottom: 2.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(153, 173, 122, 0.3);
-  border-radius: 12px;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(153,173,122,0.3);
+  border-radius: 14px;
   padding: 1rem 1.5rem;
   width: fit-content;
+  backdrop-filter: blur(6px);
 }
 
 .statItem {
@@ -87,25 +87,25 @@
 .statNumber {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #99AD7A;
+  color: #E8A84E;
   line-height: 1;
 }
 
 .statLabel {
-  font-size: 0.75rem;
-  color: rgba(220, 204, 172, 0.7);
+  font-size: 0.72rem;
+  color: rgba(220,204,172,0.7);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .statDivider {
   width: 1px;
   height: 36px;
-  background: rgba(153, 173, 122, 0.3);
+  background: rgba(153,173,122,0.25);
 }
 
-/* ---------- Buttons ---------- */
+/* ─── Buttons ─── */
 .buttons {
   display: flex;
   align-items: center;
@@ -114,39 +114,40 @@
 }
 
 .primaryBtn {
-  background: linear-gradient(135deg, #DCCCAC, #c8b898) !important;
-  color: #546B41 !important;
+  background: linear-gradient(135deg, #C8873A, #E8A84E) !important;
+  color: #1e2a14 !important;
   border: none !important;
   border-radius: 30px !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em;
-  box-shadow: 0 4px 16px rgba(220, 204, 172, 0.3);
+  box-shadow: 0 4px 20px rgba(200,135,58,0.35);
   transition: all 0.25s ease !important;
 }
 
 .primaryBtn:hover {
-  background: linear-gradient(135deg, #c8b898, #b5a585) !important;
+  background: linear-gradient(135deg, #E8A84E, #f0bc70) !important;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(220, 204, 172, 0.4) !important;
-  color: #3d4f30 !important;
+  box-shadow: 0 8px 28px rgba(200,135,58,0.5) !important;
+  color: #1e2a14 !important;
 }
 
 .ghostBtn {
   background: transparent !important;
   color: #FFF8EC !important;
-  border: 2px solid rgba(255, 248, 236, 0.4) !important;
+  border: 2px solid rgba(255,248,236,0.35) !important;
   border-radius: 30px !important;
   font-weight: 600 !important;
   transition: all 0.25s ease !important;
 }
 
 .ghostBtn:hover {
-  background: rgba(255, 248, 236, 0.1) !important;
-  border-color: rgba(255, 248, 236, 0.8) !important;
+  background: rgba(255,248,236,0.08) !important;
+  border-color: rgba(255,248,236,0.75) !important;
   transform: translateY(-2px);
+  color: #FFF8EC !important;
 }
 
-/* ---------- Hero Visual ---------- */
+/* ─── Hero Visual ─── */
 .heroVisual {
   position: relative;
   width: 340px;
@@ -157,8 +158,8 @@
 .robotCircle {
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(153, 173, 122, 0.25), rgba(84, 107, 65, 0.15));
-  border: 2px solid rgba(153, 173, 122, 0.4);
+  background: radial-gradient(circle, rgba(200,135,58,0.18), rgba(84,107,65,0.12));
+  border: 2px solid rgba(200,135,58,0.35);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -167,19 +168,19 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
   z-index: 2;
 }
 
 .robotEmoji {
   font-size: 5rem;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 4px 16px rgba(200,135,58,0.4));
   animation: float 4s ease-in-out infinite;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50%       { transform: translateY(-14px); }
 }
 
 .orbitRing {
@@ -187,11 +188,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 280px;
-  height: 280px;
-  border: 1px dashed rgba(153, 173, 122, 0.3);
+  width: 275px;
+  height: 275px;
+  border: 1.5px dashed rgba(153,173,122,0.35);
   border-radius: 50%;
-  animation: spin 20s linear infinite;
+  animation: spin 22s linear infinite;
 }
 
 .orbitRing2 {
@@ -201,42 +202,47 @@
   transform: translate(-50%, -50%);
   width: 330px;
   height: 330px;
-  border: 1px dashed rgba(220, 204, 172, 0.15);
+  border: 1px dashed rgba(200,135,58,0.2);
   border-radius: 50%;
-  animation: spin 35s linear infinite reverse;
+  animation: spin 38s linear infinite reverse;
 }
 
 @keyframes spin {
   from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .floatingTag {
   position: absolute;
-  background: rgba(84, 107, 65, 0.85);
-  border: 1px solid rgba(153, 173, 122, 0.6);
-  color: #DCCCAC;
-  padding: 6px 12px;
+  background: rgba(30,42,20,0.82);
+  border: 1px solid rgba(200,135,58,0.5);
+  color: #E8A84E;
+  padding: 6px 13px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   backdrop-filter: blur(8px);
   z-index: 3;
   white-space: nowrap;
-  animation: pulse 3s ease-in-out infinite alternate;
+  animation: pulse 3.5s ease-in-out infinite alternate;
 }
 
 @keyframes pulse {
-  from { opacity: 0.7; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.04); }
+  from { opacity: 0.65; transform: scale(1); }
+  to   { opacity: 1;    transform: scale(1.05); }
 }
 
-/* ---------- Stats Bar ---------- */
+/* ─── Stats Bar ─── */
 .statsBar {
-  background: #546B41;
-  border-bottom: 1px solid rgba(153, 173, 122, 0.3);
-  padding: 1rem 0;
+  background: linear-gradient(90deg, #3d4f30 0%, #546B41 50%, #3d4f30 100%);
+  border-bottom: 1px solid rgba(153,173,122,0.25);
+  padding: 0.9rem 0;
+}
+
+[data-theme='dark'] .statsBar {
+  background: linear-gradient(90deg, #0e1309 0%, #1d2617 50%, #0e1309 100%);
+  border-bottom-color: rgba(84,107,65,0.4);
 }
 
 .statsGrid {
@@ -252,20 +258,21 @@
   align-items: center;
   gap: 8px;
   color: #DCCCAC;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 
-.statsBarItem span {
-  font-size: 1.1rem;
-}
+[data-theme='dark'] .statsBarItem { color: #a8bf8c; }
 
-/* ---------- Responsive ---------- */
+.statsBarItem span { font-size: 1.1rem; }
+
+/* ─── Responsive ─── */
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 3rem 1.5rem 2.5rem;
     text-align: center;
+    min-height: auto;
   }
 
   .heroBanner .container {
@@ -273,31 +280,19 @@
     align-items: center;
   }
 
-  .heroTitle {
-    font-size: 2.4rem !important;
-  }
-
-  .heroSubtitle {
-    font-size: 1rem !important;
-    max-width: 100%;
-  }
+  .heroTitle    { font-size: 2.2rem !important; }
+  .heroSubtitle { font-size: 1rem !important; max-width: 100%; }
 
   .heroStats {
     width: 100%;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
-  .buttons {
-    justify-content: center;
-  }
+  .statItem { padding: 0 1rem; }
 
-  .heroVisual {
-    width: 260px;
-    height: 260px;
-    display: none;
-  }
-
-  .statsGrid {
-    gap: 1.5rem;
-  }
+  .buttons    { justify-content: center; }
+  .heroVisual { display: none; }
+  .statsGrid  { gap: 1.5rem; }
 }

@@ -12,47 +12,63 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <div className={styles.heroContent}>
-          <div className={styles.heroBadge}>📚 AI-Native Textbook</div>
-          <h1 className={styles.heroTitle}>
-            Physical AI &amp;<br />
-            <span className={styles.heroTitleAccent}>Humanoid Robotics</span>
-          </h1>
-          <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
-          <div className={styles.heroStats}>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>10+</span>
-              <span className={styles.statLabel}>Chapters</span>
+        {/* heroInner ensures side-by-side layout via its own flex class */}
+        <div className={styles.heroInner}>
+
+          {/* ── LEFT: Text Content ── */}
+          <div className={styles.heroContent}>
+            <div className={styles.heroBadge}>📚 AI-Native Textbook</div>
+
+            <h1 className={styles.heroTitle}>
+              Physical AI &amp;
+              <span className={styles.heroTitleAccent}> Humanoid Robotics</span>
+            </h1>
+
+            <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
+
+            <div className={styles.heroStats}>
+              <div className={styles.statItem}>
+                <span className={styles.statNumber}>10+</span>
+                <span className={styles.statLabel}>Chapters</span>
+              </div>
+              <div className={styles.statDivider} />
+              <div className={styles.statItem}>
+                <span className={styles.statNumber}>RAG</span>
+                <span className={styles.statLabel}>AI Assistant</span>
+              </div>
+              <div className={styles.statDivider} />
+              <div className={styles.statItem}>
+                <span className={styles.statNumber}>Free</span>
+                <span className={styles.statLabel}>Open Access</span>
+              </div>
             </div>
-            <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>RAG</span>
-              <span className={styles.statLabel}>AI Assistant</span>
-            </div>
-            <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>Free</span>
-              <span className={styles.statLabel}>Open Access</span>
+
+            <div className={styles.buttons}>
+              <Link
+                className={clsx('button button--lg', styles.primaryBtn)}
+                to="/docs/chapter1-intro">
+                Start Reading →
+              </Link>
+              <Link
+                className={clsx('button button--lg', styles.ghostBtn)}
+                to="/docs/chapter2-ros2">
+                View Chapters
+              </Link>
             </div>
           </div>
-          <div className={styles.buttons}>
-            <Link className={clsx('button button--secondary button--lg', styles.primaryBtn)} to="/docs/chapter1-intro">
-              Start Reading →
-            </Link>
-            <Link className={clsx('button button--lg', styles.ghostBtn)} to="/docs/chapter1-intro">
-              View Chapters
-            </Link>
+
+          {/* ── RIGHT: Visual / Robot ── */}
+          <div className={styles.heroVisual}>
+            <div className={styles.robotCircle}>
+              <span className={styles.robotEmoji}>🤖</span>
+            </div>
+            <div className={styles.orbitRing} />
+            <div className={styles.orbitRing2} />
+            <div className={styles.floatingTag} style={{ top: '8%', right: '0%' }}>ROS 2</div>
+            <div className={styles.floatingTag} style={{ bottom: '15%', right: '-8%' }}>SLAM</div>
+            <div className={styles.floatingTag} style={{ top: '52%', left: '-12%' }}>Isaac Sim</div>
           </div>
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.robotCircle}>
-            <span className={styles.robotEmoji}>🤖</span>
-          </div>
-          <div className={styles.orbitRing} />
-          <div className={styles.orbitRing2} />
-          <div className={styles.floatingTag} style={{ top: '10%', right: '5%' }}>ROS 2</div>
-          <div className={styles.floatingTag} style={{ bottom: '20%', right: '-5%' }}>SLAM</div>
-          <div className={styles.floatingTag} style={{ top: '50%', left: '-10%' }}>Isaac Sim</div>
+
         </div>
       </div>
     </header>
@@ -64,18 +80,10 @@ function StatsBar() {
     <div className={styles.statsBar}>
       <div className="container">
         <div className={styles.statsGrid}>
-          <div className={styles.statsBarItem}>
-            <span>🎯</span> Spec-Driven Development
-          </div>
-          <div className={styles.statsBarItem}>
-            <span>🔬</span> Cohere + Qdrant RAG
-          </div>
-          <div className={styles.statsBarItem}>
-            <span>🚀</span> Gazebo & Isaac Sim
-          </div>
-          <div className={styles.statsBarItem}>
-            <span>📡</span> ROS 2 Humble
-          </div>
+          <div className={styles.statsBarItem}><span>🎯</span> Spec-Driven Development</div>
+          <div className={styles.statsBarItem}><span>🔬</span> Cohere + Qdrant RAG</div>
+          <div className={styles.statsBarItem}><span>🚀</span> Gazebo &amp; Isaac Sim</div>
+          <div className={styles.statsBarItem}><span>📡</span> ROS 2 Humble</div>
         </div>
       </div>
     </div>

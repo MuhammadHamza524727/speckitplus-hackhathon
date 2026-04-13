@@ -16,49 +16,85 @@ app = FastAPI(
     version="1.0"
 )
 
-# Add CORS middleware to allow requests from Docusaurus frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 co = cohere.Client(os.getenv("COHERE_API_KEY"))
-qdrant = QdrantClient(url=os.getenv("QDRANT_URL", "").strip(), api_key=os.getenv("QDRANT_API_KEY", "").strip())
+qdrant = QdrantClient(
+    url=os.getenv("QDRANT_URL", "").strip(),
+    api_key=os.getenv("QDRANT_API_KEY", "").strip()
+)
 
 COLLECTION = "physical_ai_book"
 
+
 class QueryRequest(BaseModel):
     query: str
+
 
 class Source(BaseModel):
     file: str
     chunk_index: int
     score: float
 
+
 class QueryResponse(BaseModel):
     answer: str
     sources: List[Source]
     query: str = ""
 
+
 @app.get("/")
 def home():
     return {"message": "Physical AI Book RAG is LIVE! Go to /docs to test"}
 
+
 def embed_query(text: str):
-    resp = co.embed(texts=[text], model="embed-english-v3.0", input_type="search_query")
+    """Embed using Cohere v5 API — supports both float and legacy response"""
+    resp = co.embed(
+        texts=[text],
+        model="embed-english-v3.0",
+        input_type="search_query",
+        embedding_types=["float"]
+    )
+    # Cohere v5: resp.embeddings.float_ is a list of float vectors
+    if hasattr(resp.embeddings, 'float_') and resp.embeddings.float_:
+        return resp.embeddings.float_[0]
+    # Fallback for older SDK versions
     return resp.embeddings[0]
+
+
+def generate_answer(prompt: str) -> str:
+    """Generate answer using Cohere v5 chat API"""
+    # Cohere v5 uses messages list instead of message=
+    response = co.chat(
+        model="command-r-plus",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    # v5 response: response.message.content[0].text
+    if hasattr(response, 'message') and response.message.content:
+        return response.message.content[0].text.strip()
+    # Fallback for older SDK
+    if hasattr(response, 'text'):
+        return response.text.strip()
+    return str(response)
+
 
 @app.post("/rag-query", response_model=QueryResponse)
 async def query(req: QueryRequest):
     if not req.query.strip():
-        raise HTTPException(400, "Query empty hai bhai")
+        raise HTTPException(400, "Query cannot be empty")
 
     try:
+        # 1. Embed the query
         vec = embed_query(req.query)
 
+        # 2. Search Qdrant
         results = qdrant.query_points(
             collection_name=COLLECTION,
             query=vec,
@@ -66,66 +102,57 @@ async def query(req: QueryRequest):
             with_payload=True
         )
 
-        # Handle QueryResponse object (newer Qdrant API)
-        if hasattr(results, 'points'):
-            points = results.points
-        else:
-            points = results  # Fallback to older API
+        points = results.points if hasattr(results, 'points') else results
 
         if not points:
-            return QueryResponse(answer="Book mein is topic pe info nahi mili.", sources=[], query=req.query)
+            return QueryResponse(
+                answer="No relevant information found in the book for this query.",
+                sources=[],
+                query=req.query
+            )
 
+        # 3. Build context from results
         context = ""
         sources = []
         for r in points:
-            # Check if r is a ScoredPoint object or has different structure
-            if hasattr(r, 'payload'):
-                p = r.payload
-                score = getattr(r, 'score', 0.0)
-            elif isinstance(r, dict) and 'payload' in r:
-                p = r['payload']
-                score = r.get('score', 0.0)
-            else:
-                # For newer Qdrant versions, the structure might be different
-                p = getattr(r, 'payload', {})
-                score = getattr(r, 'score', 0.0)
+            p = getattr(r, 'payload', None) or (r.get('payload') if isinstance(r, dict) else {})
+            score = getattr(r, 'score', 0.0) or (r.get('score', 0.0) if isinstance(r, dict) else 0.0)
 
-            if p:  # Check if payload exists and is not empty
+            if p:
                 context += f"[Source: {p.get('source_file', 'Unknown')}]\n{p.get('text', '')}\n\n"
                 sources.append(Source(
                     file=p.get('source_file', 'Unknown'),
                     chunk_index=p.get('chunk_index', 0),
-                    score=round(score, 3)
+                    score=round(float(score), 3)
                 ))
 
-        prompt = f"""Answer the question using ONLY the book context below. Be accurate and professional.
+        # 4. Generate answer
+        prompt = f"""You are an expert AI assistant for a Physical AI and Humanoid Robotics textbook.
+Answer the question using ONLY the provided book context. Be accurate, clear, and professional.
 
-Context:
+Context from book:
 {context}
 
 Question: {req.query}
 
 Answer:"""
 
-        # Using command-r-plus model (stable and available)
-        chat_resp = co.chat(message=prompt, model="command-r-plus", temperature=0.1)
-        answer = chat_resp.text.strip()
-
+        answer = generate_answer(prompt)
         return QueryResponse(answer=answer, sources=sources, query=req.query)
 
     except Exception as e:
-        raise HTTPException(500, f"Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"RAG Error: {str(e)}")
+
 
 @app.get("/health")
 def health():
     return {
         "status": "healthy",
-        "services": {
-            "cohere": True,
-            "qdrant": True
-        },
-        "message": "Cohere + Qdrant RAG system ready!"
+        "cohere_version": cohere.__version__,
+        "services": {"cohere": True, "qdrant": True},
+        "message": "Cohere v5 + Qdrant RAG system ready!"
     }
+
 
 if __name__ == "__main__":
     import uvicorn

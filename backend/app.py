@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import cohere
 from qdrant_client import QdrantClient
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt as _bcrypt
 import psycopg2
 import psycopg2.extras
 import os
@@ -41,13 +41,16 @@ COLLECTION   = "physical_ai_book"
 co     = cohere.ClientV2(os.getenv("COHERE_API_KEY")) if os.getenv("COHERE_API_KEY") else None
 qdrant = QdrantClient(url=os.getenv("QDRANT_URL","").strip(), api_key=os.getenv("QDRANT_API_KEY","").strip()) if os.getenv("QDRANT_URL") else None
 
-pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
-bearer  = HTTPBearer(auto_error=False)
+bearer = HTTPBearer(auto_error=False)
 
-def _prep_password(password: str) -> str:
-    """SHA-256 pre-hash to avoid bcrypt 72-byte limit."""
-    digest = hashlib.sha256(password.encode()).digest()
-    return base64.b64encode(digest).decode()
+def _hash_password(password: str) -> str:
+    """SHA-256 then bcrypt — avoids 72-byte limit, no passlib needed."""
+    digest = base64.b64encode(hashlib.sha256(password.encode()).digest())
+    return _bcrypt.hashpw(digest, _bcrypt.gensalt(12)).decode()
+
+def _verify_password(password: str, hashed: str) -> bool:
+    digest = base64.b64encode(hashlib.sha256(password.encode()).digest())
+    return _bcrypt.checkpw(digest, hashed.encode())
 
 # ─── DB Helper ────────────────────────────────────────
 def get_db():
@@ -190,7 +193,7 @@ def signup(req: SignupRequest):
         if cur.fetchone():
             raise HTTPException(400, "Email already registered")
 
-        hashed = pwd_ctx.hash(_prep_password(req.password))
+        hashed = _hash_password(req.password)
         cur.execute(
             "INSERT INTO users (name, email, password) VALUES (%s,%s,%s) RETURNING id, name, email",
             (req.name, req.email, hashed)
@@ -218,7 +221,7 @@ def login(req: LoginRequest):
         user = cur.fetchone()
         cur.close(); conn.close()
 
-        if not user or not pwd_ctx.verify(_prep_password(req.password), user["password"]):
+        if not user or not _verify_password(req.password, user["password"]):
             raise HTTPException(401, "Invalid email or password")
 
         token = create_token(user["id"], user["email"])

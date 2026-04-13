@@ -40,7 +40,7 @@ export default function SignupPage() {
       <div className={styles.authPage}>
         <div className={styles.authCard}>
           <div className={styles.authHeader}>
-            
+            <div className={styles.authLogo}>🤖</div>
             <h1 className={styles.authTitle}>Create Account</h1>
             <p className={styles.authSubtitle}>Join and track your learning journey</p>
           </div>
